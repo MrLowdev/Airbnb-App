@@ -5,6 +5,8 @@ import ClientOnly from "@/components/ClientOnly";
 import ToasterProvider from "@/provider/ToasterProvider";
 import Navbar from "@/components/navbar/Navbar";
 import getCurrentUser from "@/action/getCurrentUser";
+import RegisterModal from "@/components/modals/RegisterModal";
+import LoginModal from "@/components/modals/LoginModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +26,8 @@ export default async function RootLayout({
       <body className={inter.className}>
         <ClientOnly>
           <ToasterProvider />
+          <RegisterModal />
+          <LoginModal />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
         <div className="pb-20 pt-28">{children}</div>
