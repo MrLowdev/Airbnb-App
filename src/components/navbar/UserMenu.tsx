@@ -82,6 +82,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <Fragment>
+                <div className="md:hidden block">
+                  <MenuItem label="Home" onClick={() => router.push("/")} />
+                </div>
                 <MenuItem
                   label="My trips"
                   onClick={() => router.push("/trips")}
@@ -98,7 +101,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   label="My properties"
                   onClick={() => router.push("/properties")}
                 />
-                <MenuItem label="Airbnb your home" onClick={rentModal.onOpen} />
+                <div className="block md:hidden">
+                  <MenuItem
+                    label="Airbnb your home"
+                    onClick={rentModal.onOpen}
+                  />
+                </div>
+
                 <hr />
                 <MenuItem label="Logout" onClick={() => signOut()} />
               </Fragment>
