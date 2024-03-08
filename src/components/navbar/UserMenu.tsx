@@ -10,6 +10,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 import { signOut } from "next-auth/react";
+import BackDrop from "./BackDrop";
 
 interface UserMenuProps {
   currentUser?: SafeUser | null;
@@ -34,11 +35,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     rentModal.onOpen();
   }, [currentUser, loginModal, rentModal]);
   return (
-    <div className="relative">
-      <div className="flex flex-row items-center gap-3">
-        <div
-          onClick={onRent}
-          className="
+    <Fragment>
+      <div className="relative z-30">
+        <div className="flex flex-row items-center gap-3">
+          <div
+            onClick={onRent}
+            className="
             hidden
             md:block
             text-sm 
@@ -50,12 +52,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             transition 
             cursor-pointer
           "
-        >
-          Airbnb your home
-        </div>
-        <div
-          onClick={toggleOpen}
-          className="
+          >
+            Airbnb your home
+          </div>
+          <div
+            onClick={toggleOpen}
+            className="
           p-4
           md:py-1
           md:px-2
@@ -70,57 +72,59 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           hover:shadow-md 
           transition
           "
-        >
-          <AiOutlineMenu />
-          <div className="hidden md:block">
-            <Avatar src={currentUser?.image} />
+          >
+            <AiOutlineMenu />
+            <div className="hidden md:block">
+              <Avatar src={currentUser?.image} />
+            </div>
           </div>
         </div>
-      </div>
-      {isOpen && (
-        <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
-          <div className="flex flex-col cursor-pointer">
-            {currentUser ? (
-              <Fragment>
-                <div className="md:hidden block">
-                  <MenuItem label="Home" onClick={() => router.push("/")} />
-                </div>
-                <MenuItem
-                  label="My trips"
-                  onClick={() => router.push("/trips")}
-                />
-                <MenuItem
-                  label="My favorites"
-                  onClick={() => router.push("/favorites")}
-                />
-                <MenuItem
-                  label="My reservations"
-                  onClick={() => router.push("/reservations")}
-                />
-                <MenuItem
-                  label="My properties"
-                  onClick={() => router.push("/properties")}
-                />
-                <div className="block md:hidden">
+        {isOpen && (
+          <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm">
+            <div className="flex flex-col cursor-pointer">
+              {currentUser ? (
+                <Fragment>
+                  <div className="md:hidden block">
+                    <MenuItem label="Home" onClick={() => router.push("/")} />
+                  </div>
                   <MenuItem
-                    label="Airbnb your home"
-                    onClick={rentModal.onOpen}
+                    label="My trips"
+                    onClick={() => router.push("/trips")}
                   />
-                </div>
+                  <MenuItem
+                    label="My favorites"
+                    onClick={() => router.push("/favorites")}
+                  />
+                  <MenuItem
+                    label="My reservations"
+                    onClick={() => router.push("/reservations")}
+                  />
+                  <MenuItem
+                    label="My properties"
+                    onClick={() => router.push("/properties")}
+                  />
+                  <div className="block md:hidden">
+                    <MenuItem
+                      label="Airbnb your home"
+                      onClick={rentModal.onOpen}
+                    />
+                  </div>
 
-                <hr />
-                <MenuItem label="Logout" onClick={() => signOut()} />
-              </Fragment>
-            ) : (
-              <Fragment>
-                <MenuItem label="Login" onClick={loginModal.onOpen} />
-                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
-              </Fragment>
-            )}
+                  <hr />
+                  <MenuItem label="Logout" onClick={() => signOut()} />
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <MenuItem label="Login" onClick={loginModal.onOpen} />
+                  <MenuItem label="Sign up" onClick={registerModal.onOpen} />
+                </Fragment>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+      {isOpen ? <BackDrop onClick={toggleOpen} /> : null}
+    </Fragment>
   );
 };
 
